@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Everyday Math Lab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="./firebase.js"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans p-6">
+  <div class="max-w-md mx-auto mt-12">
+    <h1 class="text-3xl font-bold mb-4 text-blue-700">🔐 Login</h1>
+    <form id="login-form" class="space-y-4">
+      <input id="email" type="email" placeholder="Email" class="w-full border p-2 rounded" required />
+      <input id="password" type="password" placeholder="Password" class="w-full border p-2 rounded" required />
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Log In</button>
+    </form>
+    <p id="login-status" class="mt-4 text-sm text-green-700 font-semibold"></p>
+  </div>
+
+  <script type="module">
+    import { auth } from './firebase.js';
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const form = document.getElementById('login-form');
+    const status = document.getElementById('login-status');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        status.textContent = '✅ Login successful!';
+        // Redirect or load dashboard here later
+      } catch (error) {
+        status.textContent = '❌ Login failed: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
