@@ -53,33 +53,80 @@
       <p id="quiz-result" class="mt-4 font-semibold text-blue-800"></p>
     </div>
 
-    <script>
-      let budget = 100;
-      const budgetEl = document.getElementById('budget');
-      const buttons = document.querySelectorAll('.add-btn');
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const cost = parseInt(btn.getAttribute('data-cost'));
-          if (budget - cost >= 0) {
-            budget -= cost;
-            budgetEl.textContent = '$' + budget;
-          } else {
-            alert('Not enough budget left for this item!');
-          }
-        });
-      });
+    <script type="module">
+  import { auth } from './firebase.js';
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-      const form = document.getElementById('quiz-form');
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        const answer = form.answer.value;
-        const result = document.getElementById('quiz-result');
-        if (answer === '45') {
-          result.textContent = '✅ Correct! Cake ($25) + Pizza ($30) = $55 → $100 - $55 = $45.';
-        } else {
-          result.textContent = '❌ Not quite. Try again!';
-        }
-      });
-    </script>
-  </body>
-</html>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAhspD3jqwF7iS9ypg6JQszvH2Fn3I4hc_4",
+    authDomain: "everyday-math-lab.firebaseapp.com",
+    projectId: "everyday-math-lab",
+    storageBucket: "everyday-math-lab.appspot.com",
+    messagingSenderId: "955525594831",
+    appId: "1:955525594831:web:25c849c25b03df21dec1ba"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  let budget = 100;
+  const budgetEl = document.getElementById('budget');
+  const buttons = document.querySelectorAll('.add-btn');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cost = parseInt(btn.getAttribute('data-cost'));
+      if (budget - cost >= 0) {
+        budget -= cost;
+        budgetEl.textContent = '$' + budget;
+      } else {
+        alert('Not enough budget left for this item!');
+      }
+    });
+  });
+
+  const form = document.getElementById('quiz-form');
+  const result = document.getElementById('quiz-result');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const answer = form.answer.value;
+    const correct = answer === '45';
+
+    result.textContent = correct ?
+      '✅ Correct! Cake ($25) + Pizza ($30) = $55 → $100 - $55 = $45.' :
+      '❌ Not quite. Try again!';
+
+    const user = auth.currentUser;
+
+    if (user) {
+      try {
+        await addDoc(collection(db, "quizResults"), {
+          userId: user.uid,
+          email: user.email,
+          module: "Budget Like a Boss",
+          question: "Cake + Pizza budget question",
+          selectedAnswer: answer,
+          correct: correct,
+          time: new Date()
+        });
+        console.log("✅ Quiz result saved to Firestore");
+      } catch (err) {
+        console.error("❌ Error saving quiz result:", err);
+      }
+    } else {
+      console.warn("⚠️ User not logged in — result not saved");
+    }
+  });
+</script>
