@@ -1,10 +1,3 @@
-from pathlib import Path
-
-# Define path and filename
-homepage_path = "/mnt/data/everyday-math-lab-homepage.html"
-
-# Clean, responsive homepage HTML + Tailwind based on the user's mockup
-homepage_html = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,8 +12,8 @@ homepage_html = """
 <body class="bg-white text-gray-800">
 
   <!-- Navigation -->
-  <header class="flex justify-between items-center px-6 py-4 shadow-sm">
-    <h1 class="text-xl font-bold text-blue-900">EVERYDAY MATH LAB</h1>
+  <header class="flex justify-between items-center px-6 py-4 shadow-sm font-bold">
+    <h1 class="text-xl text-blue-900">EVERYDAY MATH LAB</h1>
     <nav class="space-x-4">
       <a href="#" class="text-gray-700 hover:text-blue-600">Curriculum</a>
       <a href="#" class="text-gray-700 hover:text-blue-600">Demo</a>
@@ -38,7 +31,7 @@ homepage_html = """
       <a href="#" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-3 rounded font-semibold">Get Started</a>
     </div>
     <div class="md:w-1/2">
-      <img src="https://cdn-icons-png.flaticon.com/512/3198/3198534.png" alt="Lemonade Stand" class="w-full max-w-sm mx-auto">
+      <img src="95686943-4dd4-4c3d-abe3-eb0eb38d9246.png" alt="Lemonade Stand" class="w-full max-w-sm mx-auto rounded-lg shadow-md">
     </div>
   </section>
 
@@ -56,7 +49,7 @@ homepage_html = """
         <p class="font-bold">SHOPPING</p>
       </div>
       <div>
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" class="h-16 mx-auto mb-2" />
+        <img src="https://cdn-icons-png.flaticon.com/512/2356/2356780.png" class="h-16 mx-auto mb-2" />
         <p class="font-bold">REAL ESTATE</p>
       </div>
     </div>
@@ -77,25 +70,5 @@ homepage_html = """
         <p class="text-sm text-gray-600">Calculate and compare discounts to get best deal</p>
       </div>
       <div class="bg-blue-50 p-4 rounded shadow">
-        <img src="https://cdn-icons-png.flaticon.com/512/4267/4267456.png" class="h-20 mx-auto mb-2" />
-        <h4 class="font-bold text-lg">Your First Job</h4>
-        <p class="text-sm text-gray-600">Understand your paycheck and how taxes work</p>
-      </div>
-    </div>
-  </section>
+        <img src="https://cdn-icons-png.flaticon.com/512/4267/4267456.png" class="
 
-  <!-- Demo CTA -->
-  <section class="bg-blue-50 text-center py-10 px-6">
-    <h3 class="text-xl font-semibold mb-2">Try an interactive lesson</h3>
-    <p class="mb-4 text-gray-700">Get a feel for our hands-on, scenario-based activities</p>
-    <a href="/demo.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-semibold">View Demo</a>
-  </section>
-
-</body>
-</html>
-"""
-
-# Save the file
-Path(homepage_path).write_text(homepage_html)
-
-homepage_path
