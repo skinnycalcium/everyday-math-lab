@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget Like a Boss</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-gray-800 font-sans px-6 py-10">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="text-3xl font-bold text-blue-800 mb-4">🎉 Budget Like a Boss</h1>
+      <p class="mb-6 text-lg">You have <strong>$100</strong> to throw a birthday party. Pick your items wisely—don’t go over budget!</p>
+
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="border p-4 rounded shadow">
+          <h2 class="font-semibold text-lg mb-2">🎂 Cake - $25</h2>
+          <button class="add-btn bg-blue-600 text-white px-3 py-1 rounded" data-cost="25">Add</button>
+        </div>
+        <div class="border p-4 rounded shadow">
+          <h2 class="font-semibold text-lg mb-2">🍕 Pizza - $30</h2>
+          <button class="add-btn bg-blue-600 text-white px-3 py-1 rounded" data-cost="30">Add</button>
+        </div>
+        <div class="border p-4 rounded shadow">
+          <h2 class="font-semibold text-lg mb-2">🎮 Game - $50</h2>
+          <button class="add-btn bg-blue-600 text-white px-3 py-1 rounded" data-cost="50">Add</button>
+        </div>
+        <div class="border p-4 rounded shadow">
+          <h2 class="font-semibold text-lg mb-2">🎈 Balloons - $15</h2>
+          <button class="add-btn bg-blue-600 text-white px-3 py-1 rounded" data-cost="15">Add</button>
+        </div>
+      </div>
+
+      <div class="bg-gray-100 p-4 rounded mb-8">
+        <p class="text-xl font-semibold">💰 Remaining Budget: <span id="budget">$100</span></p>
+      </div>
+
+      <hr class="my-6" />
+
+      <h2 class="text-2xl font-bold text-green-700 mb-4">🧠 Quick Quiz</h2>
+      <p class="mb-2">If you buy the cake and pizza, how much money will you have left?</p>
+      <form id="quiz-form" class="space-y-3">
+        <label class="block">
+          <input type="radio" name="answer" value="45" class="mr-2" /> $45
+        </label>
+        <label class="block">
+          <input type="radio" name="answer" value="50" class="mr-2" /> $50
+        </label>
+        <label class="block">
+          <input type="radio" name="answer" value="30" class="mr-2" /> $30
+        </label>
+        <button type="submit" class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Submit</button>
+      </form>
+      <p id="quiz-result" class="mt-4 font-semibold text-blue-800"></p>
+    </div>
+
+    <script>
+      let budget = 100;
+      const budgetEl = document.getElementById('budget');
+      const buttons = document.querySelectorAll('.add-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const cost = parseInt(btn.getAttribute('data-cost'));
+          if (budget - cost >= 0) {
+            budget -= cost;
+            budgetEl.textContent = '$' + budget;
+          } else {
+            alert('Not enough budget left for this item!');
+          }
+        });
+      });
+
+      const form = document.getElementById('quiz-form');
+      form.addEventListener('submit', e => {
+        e.preventDefault();
+        const answer = form.answer.value;
+        const result = document.getElementById('quiz-result');
+        if (answer === '45') {
+          result.textContent = '✅ Correct! Cake ($25) + Pizza ($30) = $55 → $100 - $55 = $45.';
+        } else {
+          result.textContent = '❌ Not quite. Try again!';
+        }
+      });
+    </script>
+  </body>
+</html>
