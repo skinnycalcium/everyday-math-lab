@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login - Everyday Math Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="module" src="./firebase.js"></script>
 </head>
 <body class="bg-white text-gray-800 font-sans p-6">
   <div class="max-w-md mx-auto mt-12">
     <h1 class="text-3xl font-bold mb-4 text-blue-700">🔐 Login</h1>
-    <form id="login-form" class="space-y-4">
+    <form class="space-y-4" onsubmit="loginUser(event)">
       <input id="email" type="email" placeholder="Email" class="w-full border p-2 rounded" required />
       <input id="password" type="password" placeholder="Password" class="w-full border p-2 rounded" required />
       <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Log In</button>
@@ -19,25 +18,34 @@
   </div>
 
   <script type="module">
-    import { auth } from './firebase.js';
-    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-    const form = document.getElementById('login-form');
-    const status = document.getElementById('login-status');
+    const firebaseConfig = {
+      apiKey: "AIzaSyAhspD3jqwF7iS9ypg6JQszvH2Fn3I4hc_4",
+      authDomain: "everyday-math-lab.firebaseapp.com",
+      projectId: "everyday-math-lab",
+      storageBucket: "everyday-math-lab.appspot.com",
+      messagingSenderId: "955525594831",
+      appId: "1:955525594831:web:25c849c25b03df21dec1ba"
+    };
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.loginUser = async function (event) {
+      event.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+      const status = document.getElementById('login-status');
 
       try {
         await signInWithEmailAndPassword(auth, email, password);
         status.textContent = '✅ Login successful!';
-        // Redirect or load dashboard here later
       } catch (error) {
         status.textContent = '❌ Login failed: ' + error.message;
       }
-    });
+    };
   </script>
 </body>
 </html>
