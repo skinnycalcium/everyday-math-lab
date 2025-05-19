@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Budget Like a Boss - Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800 font-sans p-6">
+  <div class="max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-blue-700 mb-4">🎉 Budget Like a Boss</h1>
+    <p class="mb-6 text-lg">You’re planning a birthday party and have $100 to spend. Select items below and track your spending!</p>
+
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <button onclick="addItem('Pizza', 25)" class="bg-blue-100 p-4 rounded hover:bg-blue-200">🍕 Pizza - $25</button>
+      <button onclick="addItem('Cake', 20)" class="bg-blue-100 p-4 rounded hover:bg-blue-200">🎂 Cake - $20</button>
+      <button onclick="addItem('Balloons', 15)" class="bg-blue-100 p-4 rounded hover:bg-blue-200">🎈 Balloons - $15</button>
+      <button onclick="addItem('Gift', 40)" class="bg-blue-100 p-4 rounded hover:bg-blue-200">🎁 Gift - $40</button>
+    </div>
+
+    <div class="border-t pt-4">
+      <h2 class="text-xl font-semibold mb-2">🧾 Budget Summary</h2>
+      <ul id="summary" class="mb-2 text-sm text-gray-700"></ul>
+      <p class="font-semibold">Total Spent: $<span id="total">0</span> / $100</p>
+    </div>
+  </div>
+
+  <script>
+    let total = 0;
+    const summary = document.getElementById('summary');
+    const totalDisplay = document.getElementById('total');
+
+    function addItem(name, cost) {
+      if (total + cost > 100) {
+        alert("You're over budget!");
+        return;
+      }
+      total += cost;
+      const item = document.createElement('li');
+      item.textContent = `${name}: $${cost}`;
+      summary.appendChild(item);
+      totalDisplay.textContent = total;
+    }
+  </script>
+</body>
+</html>
